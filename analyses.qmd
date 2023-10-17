@@ -1,0 +1,221 @@
+---
+title: "Analyses uncanny valley data"
+author: "Fernando Marmolejo-Ramos"
+format: html
+editor: visual
+---
+
+## Introduction
+
+## Data part 1
+
+The data are provided in excel form and the tabs of interest are 2 and 3.
+
+*First step:* reading the data
+
+```{r}
+# data is loaded in the working directory
+setwd("C:/Users/marmolf/Desktop/for guillermo (uncanny valley)")
+
+
+library(readxl)
+data <- read_excel("Datos Para Gráficos.xlsx", 
+     sheet = "fig2")
+ # View(data)
+
+
+str(data)
+
+# adjusting data
+
+data = transform(data,
+  Condition = as.factor(Condition),
+  Avatar = as.factor(Avatar)
+)
+
+str(data)
+```
+
+Now that all variables are in the right format, let's do a plot
+
+*Step 2*: plot
+
+```{r}
+library(ggpubr)
+
+ggboxplot(data, x = "Avatar", y = "Rating", 
+          color = "Condition", notch=T,
+          palette = c("blue", "red"))
+```
+
+*Step 3:* data analysis
+
+The plot above suggests potential interactions and main effects. There are no repeated measures so a fixed-effects robust linear model is used.
+
+```{r}
+library(robust)
+
+model <- lmRob(Rating ~ Condition * Avatar, data=data)
+
+summary(model)
+
+library(car)
+
+Anova(model)
+```
+
+The results suggest significant main effects and interactions. That is, main effect of 'condition' (chi square = 21.59, p = 3.3e-6, df = 1), 'avatar' (chi square = 28.84, p = 7.85e-8, df = 1) and the interaction 'avatar' x 'condition' (chi square = 119.97, p \< 2.2e-16, df = 1).
+
+Of interest, however, is the pairwise comparison between the likability ratings for simple vs complex avatar and the perceived humanity ratings for simple vs complex avatar. These pairwise comparisons were assessed via robust tests for two dependent groups (given that the same participants used both scales to rate both avatars).
+
+*Step 4:* Pairwise comparisons
+
+A test comparing the medians (.5 quantiles) was used.
+
+**Comparing likability ratings:**
+
+```{r}
+library(WRS2)
+
+set.seed(2023)
+
+lik.simple <- with(data, Rating[Avatar=='Simple' & Condition=='Likability'])
+
+boxplot.stats(lik.simple)
+
+lik.complex<- with(data, Rating[Avatar=='Complex' & Condition=='Likability'])
+
+boxplot.stats(lik.complex)
+
+
+Dqcomhd(lik.simple, lik.complex, q=.5)
+
+```
+
+The results suggest a significant difference (p \< .05) between the likability for simple avatar (Median rating likability simple avatar = 8, 95% CI = \[7.46, 8.53\]) and complex avatar (Median = 3, 95% CI = \[2.28, 3.71\]).
+
+**Comparing perceived humanity ratings:**
+
+```{r}
+set.seed(2023)
+
+ph.simple <- with(data, Rating[Avatar=='Simple' & Condition=='Perceived Humanity'])
+
+boxplot.stats(ph.simple)
+
+ph.complex<- with(data, Rating[Avatar=='Complex' & Condition=='Perceived Humanity'])
+
+boxplot.stats(ph.complex)
+
+
+Dqcomhd(ph.simple, ph.complex, q=.5)
+```
+
+## Data part 2
+
+This part looks at the 'emotion recognition' part of the study.
+
+*First step:* reading the data
+
+```{r}
+# data is loaded in the working directory
+setwd("C:/Users/marmolf/Desktop/for guillermo (uncanny valley)")
+
+
+data2 <- read_excel("Datos Para Gráficos.xlsx", 
+     sheet = "fig3")
+
+
+str(data2)
+
+# adjusting data
+
+data2 = transform(data2,
+  Condition = as.factor(Condition),
+  Avatar = as.factor(Avatar),
+  Emotion = as.factor(Emotion)
+)
+
+str(data2)
+```
+
+*Step 2:* plot
+
+A plot for each avatar
+
+```{r}
+
+simple.avatar <- subset(data2, Avatar=='Simple')
+  
+SIMP <- ggboxplot(simple.avatar, x = "Emotion", y = "Rating", 
+          title='Simple avatar',
+          color = "Condition", notch=T,
+          palette = c("blue", "red"))
+
+complex.avatar <- subset(data2, Avatar=='Complex')
+  
+COMP <- ggboxplot(complex.avatar, x = "Emotion", y = "Rating", 
+          title='Complex avatar',
+          color = "Condition", notch=T,
+          palette = c("blue", "red"))
+
+ggarrange(SIMP, COMP, common.legend = TRUE,
+          ncol = 1, nrow = 2)
+
+```
+
+*Step 3:* data analysis
+
+The interest is to see what variable (i.e. type of avatar \[2 levels\], type of rating \[2 levels\], and type of emotion \[6 levels\]) has a main effect.
+
+```{r}
+
+model2 <- lmRob(Rating ~ Condition + Avatar + Emotion, data=data2)
+
+summary(model2)
+
+Anova(model2)
+```
+
+The results suggest there were main effects from the three variables. That is, a main effect of 'emotion' suggests their combined ratings differed between emotions. A main effect of 'condition' indicates that the average likability and recognizability also differed. Likewise, the average combined ratings for complex vs simple avatars also differed.
+
+The interest, though, is on knowing if the likability ratings (across all emotions) between complex and simple avatars are different. Also, it was the interest to know if the recognizability ratings (across all emotions) between complex and simple avatars are different.
+
+*Step 4:* Pairwise comparisons
+
+A test comparing the medians (.5 quantiles) was used.
+
+**Comparing likability ratings:**
+
+```{r}
+
+set.seed(2023)
+
+lik.simple2 <- with(data2, Rating[Avatar=='Simple' & Condition=='Likability'])
+
+boxplot.stats(lik.simple2)
+
+lik.complex2 <- with(data2, Rating[Avatar=='Complex' & Condition=='Likability'])
+
+boxplot.stats(lik.complex2)
+
+
+Dqcomhd(lik.simple2, lik.complex2, q=.5)
+```
+
+**Comparing emotion recognizability ratings:**
+
+```{r}
+set.seed(2023)
+
+er.simple2 <- with(data2, Rating[Avatar=='Simple' & Condition=='Recognizability'])
+
+boxplot.stats(er.simple2)
+
+er.complex2 <- with(data2, Rating[Avatar=='Complex' & Condition=='Recognizability'])
+
+boxplot.stats(er.complex2)
+
+
+Dqcomhd(er.simple2, er.complex2, q=.5)
+```

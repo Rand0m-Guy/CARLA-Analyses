@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Fernando Marmolejo-Ramos">
+
+<title>Analyses uncanny valley data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="analyses_files/libs/clipboard/clipboard.min.js"></script>
+<script src="analyses_files/libs/quarto-html/quarto.js"></script>
+<script src="analyses_files/libs/quarto-html/popper.min.js"></script>
+<script src="analyses_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="analyses_files/libs/quarto-html/anchor.min.js"></script>
+<link href="analyses_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="analyses_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="analyses_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="analyses_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="analyses_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analyses uncanny valley data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Fernando Marmolejo-Ramos </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+</section>
+<section id="data-part-1" class="level2">
+<h2 class="anchored" data-anchor-id="data-part-1">Data part 1</h2>
+<p>The data are provided in excel form and the tabs of interest are 2 and 3.</p>
+<p><em>First step:</em> reading the data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data is loaded in the working directory</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/marmolf/Desktop/for guillermo (uncanny valley)"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"Datos Para Gráficos.xlsx"</span>, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">sheet =</span> <span class="st">"fig2"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a> <span class="co"># View(data)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [316 × 4] (S3: tbl_df/tbl/data.frame)
+ $ Respondent: num [1:316] 1 1 1 1 2 2 2 2 3 3 ...
+ $ Condition : chr [1:316] "Likability" "Perceived Humanity" "Likability" "Perceived Humanity" ...
+ $ Avatar    : chr [1:316] "Simple" "Simple" "Complex" "Complex" ...
+ $ Rating    : num [1:316] 6 5 4 5 9 1 5 4 10 6 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adjusting data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">transform</span>(data,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Condition =</span> <span class="fu">as.factor</span>(Condition),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Avatar =</span> <span class="fu">as.factor</span>(Avatar)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   316 obs. of  4 variables:
+ $ Respondent: num  1 1 1 1 2 2 2 2 3 3 ...
+ $ Condition : Factor w/ 2 levels "Likability","Perceived Humanity": 1 2 1 2 1 2 1 2 1 2 ...
+ $ Avatar    : Factor w/ 2 levels "Complex","Simple": 2 2 1 1 2 2 1 1 2 2 ...
+ $ Rating    : num  6 5 4 5 9 1 5 4 10 6 ...</code></pre>
+</div>
+</div>
+<p>Now that all variables are in the right format, let’s do a plot</p>
+<p><em>Step 2</em>: plot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggboxplot</span>(data, <span class="at">x =</span> <span class="st">"Avatar"</span>, <span class="at">y =</span> <span class="st">"Rating"</span>, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">"Condition"</span>, <span class="at">notch=</span>T,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analyses_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><em>Step 3:</em> data analysis</p>
+<p>The plot above suggests potential interactions and main effects. There are no repeated measures so a fixed-effects robust linear model is used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(robust)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: fit.models</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lmRob</span>(Rating <span class="sc">~</span> Condition <span class="sc">*</span> Avatar, <span class="at">data=</span>data)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lmRob(formula = Rating ~ Condition * Avatar, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.2131 -1.8964 -0.1013  1.7869  6.4007 
+
+Coefficients:
+                                         Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                                3.5993     0.2672  13.470  &lt; 2e-16
+ConditionPerceived Humanity                1.6138     0.3716   4.342 1.91e-05
+AvatarSimple                               4.5019     0.3864  11.652  &lt; 2e-16
+ConditionPerceived Humanity:AvatarSimple  -5.8186     0.5312 -10.953  &lt; 2e-16
+                                            
+(Intercept)                              ***
+ConditionPerceived Humanity              ***
+AvatarSimple                             ***
+ConditionPerceived Humanity:AvatarSimple ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.421 on 312 degrees of freedom
+Multiple R-Squared: 0.3867 
+
+Test for Bias:
+            statistic p-value
+M-estimate      6.118  0.1905
+LS-estimate   -30.659  1.0000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table (Type II tests)
+
+Response: Rating
+                 Df   Chisq Pr(&gt;Chisq)    
+Condition         1  21.596  3.366e-06 ***
+Avatar            1  28.842  7.852e-08 ***
+Condition:Avatar  1 119.978  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>The results suggest significant main effects and interactions. That is, main effect of ‘condition’ (chi square = 21.59, p = 3.3e-6, df = 1), ‘avatar’ (chi square = 28.84, p = 7.85e-8, df = 1) and the interaction ‘avatar’ x ‘condition’ (chi square = 119.97, p &lt; 2.2e-16, df = 1).</p>
+<p>Of interest, however, is the pairwise comparison between the likability ratings for simple vs complex avatar and the perceived humanity ratings for simple vs complex avatar. These pairwise comparisons were assessed via robust tests for two dependent groups (given that the same participants used both scales to rate both avatars).</p>
+<p><em>Step 4:</em> Pairwise comparisons</p>
+<p>A test comparing the medians (.5 quantiles) was used.</p>
+<p><strong>Comparing likability ratings:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(WRS2)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>lik.simple <span class="ot">&lt;-</span> <span class="fu">with</span>(data, Rating[Avatar<span class="sc">==</span><span class="st">'Simple'</span> <span class="sc">&amp;</span> Condition<span class="sc">==</span><span class="st">'Likability'</span>])</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(lik.simple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$stats
+[1]  4  7  8 10 10
+
+$n
+[1] 79
+
+$conf
+[1] 7.466708 8.533292
+
+$out
+numeric(0)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>lik.complex<span class="ot">&lt;-</span> <span class="fu">with</span>(data, Rating[Avatar<span class="sc">==</span><span class="st">'Complex'</span> <span class="sc">&amp;</span> Condition<span class="sc">==</span><span class="st">'Likability'</span>])</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(lik.complex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$stats
+[1]  1  1  3  5 10
+
+$n
+[1] 79
+
+$conf
+[1] 2.288944 3.711056
+
+$out
+numeric(0)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dqcomhd</span>(lik.simple, lik.complex, <span class="at">q=</span>.<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+Dqcomhd(x = lik.simple, y = lik.complex, q = 0.5)
+
+Parameter table: 
+    q n1 n2   est1   est2 est1-est.2 ci.low  ci.up p.crit p.value
+1 0.5 79 79 8.1543 3.3566     4.7977 3.9953 5.8936   0.05       0</code></pre>
+</div>
+</div>
+<p>The results suggest a significant difference (p &lt; .05) between the likability for simple avatar (Median rating likability simple avatar = 8, 95% CI = [7.46, 8.53]) and complex avatar (Median = 3, 95% CI = [2.28, 3.71]).</p>
+<p><strong>Comparing perceived humanity ratings:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>ph.simple <span class="ot">&lt;-</span> <span class="fu">with</span>(data, Rating[Avatar<span class="sc">==</span><span class="st">'Simple'</span> <span class="sc">&amp;</span> Condition<span class="sc">==</span><span class="st">'Perceived Humanity'</span>])</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(ph.simple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$stats
+[1] 1 2 4 5 8
+
+$n
+[1] 79
+
+$conf
+[1] 3.466708 4.533292
+
+$out
+[1] 10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ph.complex<span class="ot">&lt;-</span> <span class="fu">with</span>(data, Rating[Avatar<span class="sc">==</span><span class="st">'Complex'</span> <span class="sc">&amp;</span> Condition<span class="sc">==</span><span class="st">'Perceived Humanity'</span>])</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(ph.complex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$stats
+[1]  1  3  5  7 10
+
+$n
+[1] 79
+
+$conf
+[1] 4.288944 5.711056
+
+$out
+numeric(0)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dqcomhd</span>(ph.simple, ph.complex, <span class="at">q=</span>.<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+Dqcomhd(x = ph.simple, y = ph.complex, q = 0.5)
+
+Parameter table: 
+    q n1 n2   est1   est2 est1-est.2  ci.low   ci.up p.crit p.value
+1 0.5 79 79 3.6763 5.4443    -1.7679 -2.6442 -0.5732   0.05   0.002</code></pre>
+</div>
+</div>
+</section>
+<section id="data-part-2" class="level2">
+<h2 class="anchored" data-anchor-id="data-part-2">Data part 2</h2>
+<p>This part looks at the ‘emotion recognition’ part of the study.</p>
+<p><em>First step:</em> reading the data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data is loaded in the working directory</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/marmolf/Desktop/for guillermo (uncanny valley)"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"Datos Para Gráficos.xlsx"</span>, </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">sheet =</span> <span class="st">"fig3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+• `` -&gt; `...6`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [1,896 × 7] (S3: tbl_df/tbl/data.frame)
+ $ Respondent                                                                 : num [1:1896] 1 1 1 1 1 1 1 1 1 1 ...
+ $ Condition                                                                  : chr [1:1896] "Recognizability" "Likability" "Recognizability" "Likability" ...
+ $ Avatar                                                                     : chr [1:1896] "Simple" "Simple" "Simple" "Simple" ...
+ $ Emotion                                                                    : chr [1:1896] "Anger" "Anger" "Disgust" "Disgust" ...
+ $ Rating                                                                     : num [1:1896] 10 10 7.5 9 9 9 10 10 8.5 10 ...
+ $ ...6                                                                       : logi [1:1896] NA NA NA NA NA NA ...
+ $ El Rating viene del Auxiliar con Excel bastante cuestionable, pero funciona: logi [1:1896] NA NA NA NA NA NA ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adjusting data</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">=</span> <span class="fu">transform</span>(data2,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Condition =</span> <span class="fu">as.factor</span>(Condition),</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Avatar =</span> <span class="fu">as.factor</span>(Avatar),</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Emotion =</span> <span class="fu">as.factor</span>(Emotion)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   1896 obs. of  7 variables:
+ $ Respondent                                                                 : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ Condition                                                                  : Factor w/ 2 levels "Likability","Recognizability": 2 1 2 1 2 1 2 1 2 1 ...
+ $ Avatar                                                                     : Factor w/ 2 levels "Complex","Simple": 2 2 2 2 2 2 2 2 2 2 ...
+ $ Emotion                                                                    : Factor w/ 6 levels "Anger","Disgust",..: 1 1 2 2 3 3 4 4 5 5 ...
+ $ Rating                                                                     : num  10 10 7.5 9 9 9 10 10 8.5 10 ...
+ $ ...6                                                                       : logi  NA NA NA NA NA NA ...
+ $ El.Rating.viene.del.Auxiliar.con.Excel.bastante.cuestionable..pero.funciona: logi  NA NA NA NA NA NA ...</code></pre>
+</div>
+</div>
+<p><em>Step 2:</em> plot</p>
+<p>A plot for each avatar</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>simple.avatar <span class="ot">&lt;-</span> <span class="fu">subset</span>(data2, Avatar<span class="sc">==</span><span class="st">'Simple'</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>SIMP <span class="ot">&lt;-</span> <span class="fu">ggboxplot</span>(simple.avatar, <span class="at">x =</span> <span class="st">"Emotion"</span>, <span class="at">y =</span> <span class="st">"Rating"</span>, </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">title=</span><span class="st">'Simple avatar'</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">"Condition"</span>, <span class="at">notch=</span>T,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>))</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>complex.avatar <span class="ot">&lt;-</span> <span class="fu">subset</span>(data2, Avatar<span class="sc">==</span><span class="st">'Complex'</span>)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>COMP <span class="ot">&lt;-</span> <span class="fu">ggboxplot</span>(complex.avatar, <span class="at">x =</span> <span class="st">"Emotion"</span>, <span class="at">y =</span> <span class="st">"Rating"</span>, </span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">title=</span><span class="st">'Complex avatar'</span>,</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">"Condition"</span>, <span class="at">notch=</span>T,</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>))</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(SIMP, COMP, <span class="at">common.legend =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>          <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Notch went outside hinges
+ℹ Do you want `notch = FALSE`?
+Notch went outside hinges
+ℹ Do you want `notch = FALSE`?
+Notch went outside hinges
+ℹ Do you want `notch = FALSE`?
+Notch went outside hinges
+ℹ Do you want `notch = FALSE`?
+Notch went outside hinges
+ℹ Do you want `notch = FALSE`?
+Notch went outside hinges
+ℹ Do you want `notch = FALSE`?
+Notch went outside hinges
+ℹ Do you want `notch = FALSE`?
+Notch went outside hinges
+ℹ Do you want `notch = FALSE`?</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="analyses_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><em>Step 3:</em> data analysis</p>
+<p>The interest is to see what variable (i.e.&nbsp;type of avatar [2 levels], type of rating [2 levels], and type of emotion [6 levels]) has a main effect.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lmRob</span>(Rating <span class="sc">~</span> Condition <span class="sc">+</span> Avatar <span class="sc">+</span> Emotion, <span class="at">data=</span>data2)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lmRob(formula = Rating ~ Condition + Avatar + Emotion, data = data2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.6437 -1.6010  0.2116  1.0120  3.7543 
+
+Coefficients:
+                         Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)               7.78837    0.13572  57.386  &lt; 2e-16 ***
+ConditionRecognizability  0.61216    0.09535   6.420 1.72e-10 ***
+AvatarSimple              1.24318    0.09654  12.877  &lt; 2e-16 ***
+EmotionDisgust           -1.54272    0.16693  -9.242  &lt; 2e-16 ***
+EmotionFear              -0.65575    0.16766  -3.911 9.51e-05 ***
+EmotionHappiness         -0.20516    0.17261  -1.189   0.2348    
+EmotionSadness           -0.42554    0.16770  -2.537   0.0112 *  
+EmotionSurprise          -0.01302    0.16929  -0.077   0.9387    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.834 on 1888 degrees of freedom
+Multiple R-Squared: 0.1124 
+
+Test for Bias:
+            statistic p-value
+M-estimate      -3.26       1
+LS-estimate    286.87       0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table (Type II tests)
+
+Response: Rating
+          Df   Chisq Pr(&gt;Chisq)    
+Condition  1  41.214  1.364e-10 ***
+Avatar     1 165.828  &lt; 2.2e-16 ***
+Emotion    5 127.493  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>The results suggest there were main effects from the three variables. That is, a main effect of ‘emotion’ suggests their combined ratings differed between emotions. A main effect of ‘condition’ indicates that the average likability and recognizability also differed. Likewise, the average combined ratings for complex vs simple avatars also differed.</p>
+<p>The interest, though, is on knowing if the likability ratings (across all emotions) between complex and simple avatars are different. Also, it was the interest to know if the recognizability ratings (across all emotions) between complex and simple avatars are different.</p>
+<p><em>Step 4:</em> Pairwise comparisons</p>
+<p>A test comparing the medians (.5 quantiles) was used.</p>
+<p><strong>Comparing likability ratings:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>lik.simple2 <span class="ot">&lt;-</span> <span class="fu">with</span>(data2, Rating[Avatar<span class="sc">==</span><span class="st">'Simple'</span> <span class="sc">&amp;</span> Condition<span class="sc">==</span><span class="st">'Likability'</span>])</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(lik.simple2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$stats
+[1]  3  7  9 10 10
+
+$n
+[1] 474
+
+$conf
+[1] 8.782285 9.217715
+
+$out
+ [1] 2 2 1 1 1 1 1 1 1 2 2 1 2 1 1 1 1 1 1 1 2 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>lik.complex2 <span class="ot">&lt;-</span> <span class="fu">with</span>(data2, Rating[Avatar<span class="sc">==</span><span class="st">'Complex'</span> <span class="sc">&amp;</span> Condition<span class="sc">==</span><span class="st">'Likability'</span>])</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(lik.complex2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$stats
+[1]  1  5  7  9 10
+
+$n
+[1] 474
+
+$conf
+[1] 6.709713 7.290287
+
+$out
+numeric(0)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dqcomhd</span>(lik.simple2, lik.complex2, <span class="at">q=</span>.<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+Dqcomhd(x = lik.simple2, y = lik.complex2, q = 0.5)
+
+Parameter table: 
+    q  n1  n2   est1   est2 est1-est.2 ci.low  ci.up p.crit p.value
+1 0.5 474 474 8.9894 7.0009     1.9885 1.6135 2.0459   0.05       0</code></pre>
+</div>
+</div>
+<p><strong>Comparing emotion recognizability ratings:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>er.simple2 <span class="ot">&lt;-</span> <span class="fu">with</span>(data2, Rating[Avatar<span class="sc">==</span><span class="st">'Simple'</span> <span class="sc">&amp;</span> Condition<span class="sc">==</span><span class="st">'Recognizability'</span>])</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(er.simple2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$stats
+[1]  5  8 10 10 10
+
+$n
+[1] 474
+
+$conf
+[1]  9.854856 10.145144
+
+$out
+ [1] 1.0 2.5 1.0 4.5 4.5 3.0 4.5 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>er.complex2 <span class="ot">&lt;-</span> <span class="fu">with</span>(data2, Rating[Avatar<span class="sc">==</span><span class="st">'Complex'</span> <span class="sc">&amp;</span> Condition<span class="sc">==</span><span class="st">'Recognizability'</span>])</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(er.complex2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$stats
+[1]  2.0  6.5  8.0  9.5 10.0
+
+$n
+[1] 474
+
+$conf
+[1] 7.782285 8.217715
+
+$out
+ [1] 1.5 1.0 1.5 1.0 1.0 1.0 1.5 1.0 1.0 1.5 1.0 1.0 1.0 1.5 1.5 1.0 1.0 1.5 1.0
+[20] 1.0 1.0 1.0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dqcomhd</span>(er.simple2, er.complex2, <span class="at">q=</span>.<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+Dqcomhd(x = er.simple2, y = er.complex2, q = 0.5)
+
+Parameter table: 
+    q  n1  n2  est1  est2 est1-est.2 ci.low  ci.up p.crit p.value
+1 0.5 474 474 9.786 8.035     1.7511 1.3624 1.9691   0.05       0</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
